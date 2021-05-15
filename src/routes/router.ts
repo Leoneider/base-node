@@ -38,6 +38,15 @@ router.post('/prueba', (req: Request, res: Response) =>{
     });
 });
 
+router.post(`/permiso`, (req: Request, res: Response) =>{
+    personController.insertPermiso(req);
+    res.json({
+        ok: true,
+    });
+});
+
+router.post(`/findPermiso`, personController.findPermiso);
+
 router.post('/find', (req: Request, res: Response) =>{
     personController.find(req);
     res.json({

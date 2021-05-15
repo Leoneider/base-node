@@ -9,5 +9,5 @@ Generar el DIST
 tsc -w
 
 levantar servidor
-nodemon dist/
+nodemon dist/src/server.js
 node dist/

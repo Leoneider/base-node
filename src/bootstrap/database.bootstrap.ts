@@ -7,14 +7,10 @@ const env = yenv();
 export class DatabaseBootstrap implements Initialize {
   async initialize(): Promise<any> {
     const promiseInitialize = new Promise((resolve, reject) => {
-	  
-	  let dir = process.cwd();
+      let dir = process.cwd();
+      let dirModelos = `${dir}\\src\\models`;
 
-	  console.log('DIRECTORIO: ',__dirname);
-	  console.log('DIRECTORIO -> : ', `${dir}\\src\\models`);
-	  let dirModelos = `${dir}\\src\\models`;
-
-      models.setDirectory( dirModelos ).bind(
+      models.setDirectory(dirModelos).bind(
         {
           clientOptions: {
             contactPoints: ["127.0.0.1"],
@@ -28,8 +24,8 @@ export class DatabaseBootstrap implements Initialize {
               replication_factor: 1,
             },
             migration: "alter",
-			disableTTYConfirmation: true,
-			createKeyspace: false
+            disableTTYConfirmation: true,
+            createKeyspace: false,
           },
         },
         function (error: any) {
@@ -37,11 +33,9 @@ export class DatabaseBootstrap implements Initialize {
             reject(error);
           } else {
             console.log("Connection successful to Database");
-			// console.log('INSTANCIA DE PERSONA',models.instance.Person);
-			
+            // console.log('INSTANCIA DE PERSONA',models.instance.Person);
             resolve("Connection Database successful");
           }
-
         }
       );
     });
