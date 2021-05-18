@@ -1,58 +1,54 @@
+import { PersonController } from './../controller/PersonController';
 import { Router, Request, Response } from "express";
-
-const personController = require("../controller/PersonController");
 
 const router = Router();
 
-router.get('/mensajes', (req: Request, res: Response) =>{
-    res.json({
-        ok: true,
-        mensaje: 'Todo esta bien - Panita'
+
+const personControllerClass: PersonController = new PersonController();
+
+
+
+router.post(`/agregarPermiso`, (req: Request, res: Response) =>{
+    const request = req.body;
+    personControllerClass.insertPermiso(request).then( ()=> {
+        res.json({
+            ok: true,
+            mensaje: "Agregado correctamente"
+        });
+    }).catch((err) => {
+        res.json({
+            ok: true,
+            mensaje: "Error al guardar permiso" + err
+        });
+
     });
 });
 
-router.post('/mensajes', (req: Request, res: Response) =>{
-    console.log(req.body);
-    const cuerpo = req.body.cuerpo;
-    res.json({
-        ok: true,
-        cuerpo:cuerpo
+router.delete(`/eliminarPermiso`, (req: Request, res: Response) =>{
+    const request = req.body;
+    personControllerClass.deletePermiso(request).then( () => {
+        res.json({
+            ok: true,
+            mensaje: "Eliminado correctamente"
+        });
     });
+  
 });
 
-router.post('/mensajes/:id', (req: Request, res: Response) =>{
-    console.log(req.body);
-    const cuerpo = req.body.cuerpo;
-    const id = req.params.id
-    res.json({
-        ok: true,
-        cuerpo:cuerpo,
-        id
-    });
+
+router.post(`/findPermiso`, async (req: Request, res: Response) =>{
+    const request = req.body;
+    const result = await personControllerClass.findPermiso(request); 
+    res.json(result);
 });
 
-router.post('/prueba', (req: Request, res: Response) =>{
-    personController.insert(req);
-    res.json({
-        ok: true,
-    });
+router.post(`/findPermisosUsuarios`, async (req: Request, res: Response) =>{
+    const request = req.body;
+    const result = await personControllerClass.findPermisosPorUsuarios(request); 
+    res.json(result);
 });
 
-router.post(`/permiso`, (req: Request, res: Response) =>{
-    personController.insertPermiso(req);
-    res.json({
-        ok: true,
-    });
-});
-
-router.post(`/findPermiso`, personController.findPermiso);
-
-router.post('/find', (req: Request, res: Response) =>{
-    personController.find(req);
-    res.json({
-        ok: true,
-    });
-});
+;
 
 
 export { router };

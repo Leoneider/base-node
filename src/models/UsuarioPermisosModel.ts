@@ -1,7 +1,7 @@
 module.exports = {
   fields: {
     user_code: {
-      type: "int"
+      type: "text"
     },
     agencia: {
       type: "map",
@@ -11,7 +11,7 @@ module.exports = {
       type: "frozen",
       typeDef: "<map<varchar, text>>",
     },
-    mylist: {
+    mylista: {
       type: "list",
       typeDef: "<varchar>",
     },
@@ -19,13 +19,9 @@ module.exports = {
       type: "frozen",
       typeDef: "<list<map<varchar, text> >>",
     },
-    created_at: {
-      type: "timestamp",
-      default: { $db_function: "toTimestamp(now())" },
-    },
   },
   key : [["user_code", "departamento"]],
-  indexes: ["user_code"],
+  indexes: ["user_code", "values(agencia)", "full(departamento)"],
   table_name: "usuario_permisos_agencias",
   options: {
     timestamps: {
